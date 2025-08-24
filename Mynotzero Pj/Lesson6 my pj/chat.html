@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NotZero</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                background-color: #f0f0f0;
+                padding: 20px;
+            }
+            .chat-container {
+                width: 100%;
+                max-width: 400px;
+                height: 600px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .chat-header {
+                background-color: #007bff;
+                padding: 15px;
+                color: white;
+                text-align: center;
+                font-weight: bold;
+            }
+            .chat-messages {
+                flex: 1;
+                padding: 15px;
+                overflow-y: auto;
+                background-color: #f8f9fa;
+            }
+            .message {
+                margin-bottom: 15px;
+                display: flex;
+                align-items: flex-start;
+            }
+            .message.sent {
+                justify-content: flex-end;
+            }
+            .message.received {
+                justify-content: flex-start;
+            }
+            .message-bubble {
+                max-width: 70%;
+                padding: 10px 15px;
+                border-radius: 18px;
+                word-wrap: break-word;
+            }
+            .message.sent .message-bubble {
+                background-color: #007bff;
+                color: white;
+            }
+            .message.received .message-bubble {
+                background-color: white;
+                color: #333;
+            }
+            .message-name {
+                font-weight: bold;
+                margin-bottom: 2px;
+            }
+            .message-time {
+                font-size: 12px;
+                color: #808080;
+                margin-top: 2px;
+            }
+            .message.sent .message-time {
+                color: #ecedef;
+            }
+            .chat-input {
+                display: flex;
+                padding: 15px;
+                border-top: 1px solid #ddd;
+                background-color: white;
+            }
+            .chat-input input {
+                flex: 1;
+                padding: 10px 15px;
+                border-radius: 25px;
+                outline: none;
+                font-size: 14px;
+            }
+            .chat-input input:focus {
+                border-color: #007bff;
+            }
+            .chat-input button {
+                margin-left: 10px;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+            .chat-input button:hover {
+                background-color: #0056b3;
+            }
+            .chat-input button:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="chat-container">
+            <header class="chat-header">
+                <h3>Chat Room</h3>
+            </header>
+            <main class="chat-messages" id="chatMessages">
+                <section class="message sent">
+                    <div class="message-bubble">
+                        <p class="message-name">Musa:</p>
+                        <p>How are you?</p>
+                        <p class="message-time">12:00PM</p>
+                    </div>
+                </section>
+                <section class="message received">
+                    <div class="message-bubble">
+                        <p class="message-name">Chinedu:</p>
+                        <p>I am good and you?</p>
+                        <p class="message-time">12:02PM</p>
+                    </div>
+                </section>
+                <section class="message received">
+                    <div class="message-bubble">
+                        <p class="message-name">James:</p>
+                        <p>Musa, how na?</p>
+                        <p class="message-time">12:05PM</p>
+                    </div>
+                </section>
+                <section class="message sent">
+                    <div class="message-bubble">
+                        <p class="message-name">Musa:</p>
+                        <p>I dey baba!</p>
+                        <p class="message-time">12:10PM</p>
+                    </div>
+                </section>
+            </main>
+            <footer class="chat-input">
+                <input
+                    placeholder="Start typing ..."
+                    name="message"
+                    id="messageInput"
+                />
+                <button onclick="sendMessage()" id="sendButton">Send</button>
+            </footer>
+        </div>
+        <script>
+            const input = document.getElementById("messageInput");
+            const button = document.getElementById("sendButton");
+            button.disabled = true;
+
+            function sendMessage() {
+                const message = input.value;
+
+                if (message === "") return;
+
+                const chatMessages = document.getElementById("chatMessages");
+                const currentTime = new Date().toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+
+                // Create new message element
+                const messageDiv = document.createElement("div");
+                messageDiv.className = "message sent";
+                messageDiv.innerHTML = `
+                    <div class="message-bubble">
+                        <p class="message-name">Musa:</p>
+                        <p>${message}</p>
+                        <p class="message-time">${currentTime}</p>
+                    </div>
+                `;
+
+                // Add message to chat
+                chatMessages.appendChild(messageDiv);
+
+                // Clear input
+                input.value = "";
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Simulate a response after 1 second
+                setTimeout(() => {
+                    const users = ["Chinedu", "Moses", "James", "Daniel"];
+                    const responses = [
+                        "That's interesting!",
+                        "I see what you mean.",
+                        "Thanks for sharing!",
+                        "Good point!",
+                        "Absolutely!",
+                        "I agree with you.",
+                        "That makes sense.",
+                    ];
+
+                    const randomResponse =
+                        responses[Math.floor(Math.random() * responses.length)];
+                    const randomUser =
+                        users[Math.floor(Math.random() * users.length)];
+                    const responseTime = new Date().toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    });
+
+                    const responseDiv = document.createElement("div");
+                    responseDiv.className = "message received";
+                    responseDiv.innerHTML = `
+                    <div class="message-bubble">
+                        <p class="message-name">${randomUser}:</p>
+                        <p>${randomResponse}</p>
+                        <p class="message-time">${responseTime}</p>
+                    </div>
+                `;
+
+                    chatMessages.appendChild(responseDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+
+            input.addEventListener("keypress", function (e) {
+                if (e.key === "Enter") {
+                    sendMessage();
+                }
+            });
+
+            input.addEventListener("input", function (e) {
+                if (input.value === "") {
+                    button.disabled = true;
+                } else {
+                    button.disabled = false;
+                }
+            });
+        </script>
+    </body>
+</html>

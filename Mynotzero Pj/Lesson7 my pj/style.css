@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 200px;
+}
+
+.tooltip p {
+    display: none;
+}
+
+.tooltip:hover p {
+    display: block;
+}
+
+h3 {
+   font-family: "Bitcount Prop Double", cursive;
+   font-size: 30px;;
+   font-weight:normal;
+}
